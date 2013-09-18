@@ -65,4 +65,4 @@ npm test
 ```
 
 ### Credits
-This module is adapted from [restify's]() throttle plug-in – originally developed by [Mark Cavage]().
+This module is adapted from [restify's](https://github.com/mcavage/node-restify) throttle plug-in – originally developed by [Mark Cavage](https://github.com/mcavage).
