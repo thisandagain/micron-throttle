@@ -1,7 +1,7 @@
 {
-  "author": "Andrew Sliwinski <andrew@diy.org> (https://diy.org)",
+  "author": "Andrew Sliwinski <andrewsliwinski@acm.org> (http://andrewsliwinski.com)",
   "name": "restify-throttle",
-  "description": "IP-based throttle middleware for Restify",
+  "description": "Token bucket based HTTP request throttle for Node.js",
   "version": "0.0.1",
   "repository": {
     "url": "https://github.com/thisandagain/restify-throttle"
@@ -10,8 +10,13 @@
   "scripts": {
     "test": "make test"
   },
-  "dependencies": {},
+  "dependencies": {
+    "assert-plus": "~0.1.4",
+    "lodash": "~2.0.0",
+    "lru-cache": "~2.3.1"
+  },
   "devDependencies": {
+    "async": "~0.2.9",
     "hint-hint": "~0.3.0",
     "tap": "~0.3.1"
   },
