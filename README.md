@@ -1,6 +1,8 @@
 ## restify-throttle
 #### Token bucket based HTTP request throttle for Node.js
 
+[![Build Status](https://travis-ci.org/thisandagain/restify-throttle.png)](https://travis-ci.org/thisandagain/restify-throttle)
+
 ### Installation
 ```bash
 npm install restify-throttle
