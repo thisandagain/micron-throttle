@@ -24,7 +24,7 @@ function Throttle () {
 
     self.burst      = 25;
     self.rate       = 10;
-    self.ip         = true;
+    self.ip         = false;
     self.xff        = false;
     self.username   = false;
     self.overrides  = null;
