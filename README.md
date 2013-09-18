@@ -48,13 +48,13 @@ The throttle module can be used in just about any application that supports the 
         </tr>
     </thead>
     <tbody>
-        <tr><td>rate</td><td>n/a</td><td>Number</td><td>Steady state number of requests/second to allow</td></tr>
-        <tr><td>burst</td><td>n/a</td><td>Number</td><td>If available, the amount of requests to burst to</td></tr>
-        <tr><td>ip</td><td>false</td><td>Boolean</td><td>Do throttling on a /32 (source IP)</td></tr>
+        <tr><td>rate</td><td>10</td><td>Number</td><td>Steady state number of requests/second to allow</td></tr>
+        <tr><td>burst</td><td>25</td><td>Number</td><td>If available, the amount of requests to burst to</td></tr>
+        <tr><td>ip</td><td>true</td><td>Boolean</td><td>Do throttling on a /32 (source IP)</td></tr>
         <tr><td>xff</td><td>false</td><td>Boolean</td><td>Do throttling on a /32 (X-Forwarded-For)</td></tr>
         <tr><td>username</td><td>false</td><td>Boolean</td><td>Do throttling on <code>req.username</code></td></tr>
         <tr><td>overrides</td><td>null</td><td>Object</td><td>Per "key" overrides</td></tr>
-        <tr><td>tokensTable</td><td>lru-cache</td><td>Object</td><td>Storage engine; must support set/get</td></tr>
+        <tr><td>tokensTable</td><td>n/a</td><td>Object</td><td>Storage engine; must support set/get</td></tr>
         <tr><td>maxKeys</td><td>10000</td><td>Number</td><td>If using the built-in storage table, the maximum distinct throttling keys to allow at a time</td></tr>
     </tbody>
 </table>
