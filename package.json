@@ -1,10 +1,10 @@
 {
   "author": "Andrew Sliwinski <andrewsliwinski@acm.org> (http://andrewsliwinski.com)",
-  "name": "restify-throttle",
+  "name": "micron-throttle",
   "description": "Token bucket based HTTP request throttle for Node.js",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "repository": {
-    "url": "https://github.com/thisandagain/restify-throttle"
+    "url": "https://github.com/thisandagain/micron-throttle"
   },
   "main": "./lib/index.js",
   "scripts": {

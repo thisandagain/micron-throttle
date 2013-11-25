@@ -1,17 +1,18 @@
-## restify-throttle
+## Micron-throttle
 #### Token bucket based HTTP request throttle for Node.js
 
-[![Build Status](https://travis-ci.org/thisandagain/restify-throttle.png)](https://travis-ci.org/thisandagain/restify-throttle)
+[![Build Status](https://travis-ci.org/thisandagain/micron-throttle.png)](https://travis-ci.org/thisandagain/micron-throttle)
 
 ### Installation
 ```bash
-npm install restify-throttle
+npm install micron-throttle
 ```
 
 ### Basic Use
+The throttle module can be used in just about any application that supports the `function (req, res, next)` middleware convention (such as express, connect, union or restify). For example in restify:
 ```js
-var restify     = require('restify'),
-    throttle    = require('restify-throttle');
+var http        = require('restify'),
+    throttle    = require('micron-throttle');
 
 // Create the server and pass-in the throttle middleware
 var server      = restify.createServer();
@@ -35,9 +36,6 @@ server.get('/hello/:name', function (req, res, next) {
 // Listen
 server.listen(3333);
 ```
-
-### Use Without Restify
-The throttle module can be used in just about any application that supports the `function (req, res, next)` middleware convention (such as express / connect).
 
 ### Options
 <table>

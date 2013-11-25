@@ -124,15 +124,15 @@ function Throttle () {
      *                   - {Boolean} username (optional).
      *                   - {Boolean} xff (optional).
      *                   - {Object} overrides (optional).
-     *                   - {Object} tokensTable: a storage engine this plugin will
-     *                              use to store throttling keys -> bucket mappings.
-     *                              If you don't specify this, the default is to
-     *                              use an in-memory O(1) LRU, with 10k distinct
-     *                              keys.  Any implementation just needs to support
-     *                              set/get.
-     *                   - {Number} maxKeys: If using the default implementation,
-     *                              you can specify how large you want the table to
-     *                              be.  Default is 10000.
+     *                   - {Object} tokensTable: a storage engine this plugin 
+     *                              will use to store throttling keys -> bucket 
+     *                              mappings. If you don't specify this, the 
+     *                              default is to use an in-memory O(1) LRU, 
+     *                              with 10k distinct keys.  Any implementation
+     *                              just needs to support set/get.
+     *                   - {Number} maxKeys: If using the default 
+     *                              implementation, you can specify how large 
+     *                              you want the table to be.  Default is 10000.
      * @return {Function} of type f(req, res, next) to be plugged into a route.
      * @throws {TypeError} on bad input.
      */
