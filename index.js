@@ -1,7 +1,7 @@
 /**
  * Token bucket based HTTP request throttle for Node.js.
  *
- * @package restify-throttle
+ * @package micron-throttle
  * @author Mark Cavage <mcavage@gmail.com>
  *         Andrew Sliwinski <andrewsliwinski@acm.org>
  */
@@ -84,7 +84,7 @@ function Throttle () {
 
     /**
      * Creates an API rate limiter that can be plugged into the standard
-     * restify request handling pipeline.
+     * request handling pipeline.
      *
      * This throttle gives you three options on which to throttle:
      * username, IP address and 'X-Forwarded-For'. IP/XFF is a /32 match,
