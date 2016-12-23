@@ -146,8 +146,8 @@ function Throttle () {
         _.extend(self, options);
 
         // Validate options
-        var keySelection = xor(self.ip, self.xff, self.username);
-        assert.ok(keySelection, '(ip ^ username ^ xff)');
+        var keySelection = xor(self.ip, self.xff, self.username, self.headerName);
+        assert.ok(keySelection, '(ip ^ username ^ xff ^ headerName)');
         assert.number(self.burst, 'options.burst');
         assert.number(self.rate, 'options.rate');
 
