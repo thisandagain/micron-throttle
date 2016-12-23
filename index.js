@@ -26,6 +26,7 @@ function Throttle () {
     self.rate       = 10;
     self.ip         = false;
     self.xff        = false;
+    self.headerName = null;
     self.username   = false;
     self.overrides  = null;
     self.table      = new TokenTable({
@@ -34,10 +35,14 @@ function Throttle () {
 
     var rateLimit   = function (req, res, next) {
         var attr;
+        if (self.xff && !self.headerName) {
+            self.headerName = 'x-forwarded-for';
+        }
+        
         if (self.ip) {
             attr = req.connection.remoteAddress;
-        } else if (self.xff) {
-            attr = req.headers['x-forwarded-for'];
+        } else if (self.headerName) {
+            attr = req.headers[self.headerName];
         } else if (self.username) {
             attr = req.username;
         } else {
