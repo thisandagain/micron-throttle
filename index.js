@@ -76,7 +76,7 @@ function Throttle () {
             var msg = sprintf(MESSAGE, rate);
             res.writeHead(429, 'application/json');
             res.end('{"error":"' + msg + '"}');
-            return;
+            return next(false);
         }
 
         return next();
