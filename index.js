@@ -74,7 +74,9 @@ function Throttle () {
         if (!bucket.consume(1)) {
             // Until https://github.com/joyent/node/pull/2371 is in
             var msg = sprintf(MESSAGE, rate);
-            res.writeHead(429, 'application/json');
+            res.writeHead(429, {
+                'Content-Type': 'application/json'
+            });
             res.end('{"error":"' + msg + '"}');
             return next(false);
         }
