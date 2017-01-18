@@ -11,7 +11,8 @@
  */
 var _               = require('lodash'),
     assert          = require('assert-plus'),
-    sprintf         = require('util').format;
+    sprintf         = require('util').format,
+    rangeCheck      = require('range_check');
 
 var xor             = require('./lib/xor.js'),
     TokenBucket     = require('./lib/bucket.js'),
@@ -37,7 +38,7 @@ function Throttle () {
         if (self.ip) {
             attr = req.connection.remoteAddress;
         } else if (self.xff) {
-            attr = req.headers['x-forwarded-for'];
+            attr = req.headers['x-forwarded-for'].split(',')[0];
         } else if (self.username) {
             attr = req.username;
         } else {
@@ -48,6 +49,9 @@ function Throttle () {
         // even matches
         if (!attr) return next();
 
+        // Check if attr is a ip address
+        var isIp = rangeCheck.isIP(attr);
+
         // Check the overrides
         var burst = self.burst;
         var rate = self.rate;
@@ -57,6 +61,17 @@ function Throttle () {
             self.overrides[attr].rate !== undefined) {
                 burst = self.overrides[attr].burst;
                 rate = self.overrides[attr].rate;
+        } else if (self.overrides && isIp) {
+            Object.keys(self.overrides).forEach(function(key) {
+                if(rangeCheck.isRange(key) && rangeCheck.inRange(attr, key)) {
+                    if(self.overrides[key].burst !== undefined) {
+                        burst = self.overrides[key].burst
+                    }
+                    if(self.overrides[key].rate !== undefined) {
+                        rate = self.overrides[key].rate
+                    }
+                }
+            });
         }
 
         // Check if bucket exists, else create new
@@ -74,9 +89,11 @@ function Throttle () {
         if (!bucket.consume(1)) {
             // Until https://github.com/joyent/node/pull/2371 is in
             var msg = sprintf(MESSAGE, rate);
-            res.writeHead(429, 'application/json');
+            res.writeHead(429, {
+                'Content-Type': 'application/json'
+            });
             res.end('{"error":"' + msg + '"}');
-            return;
+            return next(false);
         }
 
         return next();
