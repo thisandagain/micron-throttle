@@ -13,8 +13,7 @@ var _               = require('lodash'),
     assert          = require('assert-plus'),
     sprintf         = require('util').format;
 
-var xor             = require('./lib/xor.js'),
-    TokenBucket     = require('./lib/bucket.js'),
+var TokenBucket     = require('./lib/bucket.js'),
     TokenTable      = require('./lib/table.js');
 
 var MESSAGE         = 'You have exceeded your request rate of %s r/s.';
@@ -106,8 +105,6 @@ function Throttle () {
      * specific users/IPs.  You should use overrides sparingly, as we make a new
      * TokenBucket to track each.
      *
-     * On the `options` object ip and username are treated as an XOR.
-     *
      * An example options object with overrides:
      *
      *  {
@@ -146,8 +143,6 @@ function Throttle () {
         _.extend(self, options);
 
         // Validate options
-        var keySelection = xor(self.ip, self.xff, self.username, self.headerName);
-        assert.ok(keySelection, '(ip ^ username ^ xff ^ headerName)');
         assert.number(self.burst, 'options.burst');
         assert.number(self.rate, 'options.rate');
 
