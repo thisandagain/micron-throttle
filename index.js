@@ -1,7 +1,7 @@
 /**
  * Token bucket based HTTP request throttle for Node.js.
  *
- * @package restify-throttle
+ * @package micron-throttle
  * @author Mark Cavage <mcavage@gmail.com>
  *         Andrew Sliwinski <andrewsliwinski@acm.org>
  */
@@ -13,8 +13,7 @@ var _               = require('lodash'),
     assert          = require('assert-plus'),
     sprintf         = require('util').format;
 
-var xor             = require('./lib/xor.js'),
-    TokenBucket     = require('./lib/bucket.js'),
+var TokenBucket     = require('./lib/bucket.js'),
     TokenTable      = require('./lib/table.js');
 
 var MESSAGE         = 'You have exceeded your request rate of %s r/s.';
@@ -26,6 +25,7 @@ function Throttle () {
     self.rate       = 10;
     self.ip         = false;
     self.xff        = false;
+    self.headerName = null;
     self.username   = false;
     self.overrides  = null;
     self.table      = new TokenTable({
@@ -34,10 +34,14 @@ function Throttle () {
 
     var rateLimit   = function (req, res, next) {
         var attr;
+        if (self.xff && !self.headerName) {
+            self.headerName = 'x-forwarded-for';
+        }
+        
         if (self.ip) {
             attr = req.connection.remoteAddress;
-        } else if (self.xff) {
-            attr = req.headers['x-forwarded-for'];
+        } else if (self.headerName) {
+            attr = req.headers[self.headerName];
         } else if (self.username) {
             attr = req.username;
         } else {
@@ -84,7 +88,7 @@ function Throttle () {
 
     /**
      * Creates an API rate limiter that can be plugged into the standard
-     * restify request handling pipeline.
+     * request handling pipeline.
      *
      * This throttle gives you three options on which to throttle:
      * username, IP address and 'X-Forwarded-For'. IP/XFF is a /32 match,
@@ -100,8 +104,6 @@ function Throttle () {
      * rate, and then you can pass in an `overrides` object with rates for
      * specific users/IPs.  You should use overrides sparingly, as we make a new
      * TokenBucket to track each.
-     *
-     * On the `options` object ip and username are treated as an XOR.
      *
      * An example options object with overrides:
      *
@@ -141,8 +143,6 @@ function Throttle () {
         _.extend(self, options);
 
         // Validate options
-        var keySelection = xor(self.ip, self.xff, self.username);
-        assert.ok(keySelection, '(ip ^ username ^ xff)');
         assert.number(self.burst, 'options.burst');
         assert.number(self.rate, 'options.rate');
 
